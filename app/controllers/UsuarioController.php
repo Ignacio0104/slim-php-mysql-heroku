@@ -54,7 +54,10 @@ class UsuarioController extends Usuario implements IApiUsable
         $usuarioAModificar->id=$datos["id"]; 
         $usuarioAModificar->usuario=$datos["usuario"]; 
         $usuarioAModificar->clave=$datos["clave"]; 
-        //$nombre = $parametros['nombre'];
+        if(array_key_exists("fechaBaja",$datos))
+        {
+          $usuarioAModificar->fechaBaja=$datos["fechaBaja"]; 
+        }
         Usuario::modificarUsuario($usuarioAModificar);
         echo "Aca estoy";
         $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
@@ -66,7 +69,7 @@ class UsuarioController extends Usuario implements IApiUsable
 
     public function BorrarUno($request, $response, $args)
     {
-        $parametros = $request->getParsedBody();
+        //$parametros = $request->getParsedBody();
 
         $datos = json_decode(file_get_contents("php://input"), true);
         $usuarioId = $datos['id'];

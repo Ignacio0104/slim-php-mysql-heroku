@@ -40,10 +40,16 @@ class Usuario
     public static function modificarUsuario($usuario)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave, fechaBaja=:fechaBaja WHERE id = :id");
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $usuario->clave, PDO::PARAM_STR);
         $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
+        if($usuario->fechaBaja != null)
+        {
+            $consulta->bindValue(':fechaBaja', $usuario->fechaBaja, PDO::PARAM_INT);
+        }else{
+            $consulta->bindValue(':fechaBaja', null, PDO::PARAM_INT);
+        }
         $consulta->execute();
     }
 

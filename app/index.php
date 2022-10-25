@@ -10,6 +10,9 @@ use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Routing\RouteContext;
 
+include_once './middlewares/EntradaMiddleWare.php';
+include_once './middlewares/SalidaMiddleWare.php';
+
 require __DIR__ . '/../vendor/autoload.php';
 
 require_once './db/AccesoDatos.php';
@@ -37,10 +40,10 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
     $group->put("/modificar", \UsuarioController::class . ':ModificarUno');
     $group->delete("/borrar", \UsuarioController::class . ':BorrarUno');
-  });
+  })->add(new EntradaMiddleware())->add(new SalidaMiddleWare());
 
 $app->get('[/]', function (Request $request, Response $response) {    
-    $response->getBody()->write("Slim Framework 4 PHP De vuelta ");
+    $response->getBody()->write("Slim Framework 4 PHP 2 ");
     return $response;
 });
 
